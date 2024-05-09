@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital@1&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
+        body{
+            background-color: #ffee32;
+            font-family: 'Fira Sans', sans-serif;
+        }
+
+        .btn{
+            background-color: #0aa34f;
+            color: white;
+            font-size: medium;
+        }
+
+        .btn:hover{
+            color: white;
+            border: 3px dashed #ffee32;
+        }
+
+        h1{
+            font-family: 'Luckiest Guy', cursive;
+            text-align: center;
+            margin: 3%;
+        }
+
+        .jumbotron{
+            background-color: white;
+            padding-top: 3%;
+        }
+    </style>
+
+    <link rel="shortcut icon" href="./Imagenes/Easy-Peasy-2.ico">
+    <title>EasyPeasy</title>
+</head>
+
+<body onload="cargarCombo()">
+    <!-- Navbar -->
+    <section>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <img src="./Imagenes/Easy-Peasy-2.svg" alt="" style="height: 50px;">
+                <h4 style="color: white; margin-top: 5%;">&nbsp EasyPeasy</h4>
+            </div>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button> 
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto"></ul>
+              <form class="form-inline my-2 my-lg-0" style="gap: 15px;">
+                <a class="btn btn-success my-2 my-sm-0" href="IndexHojaDeRuta.html">Volver</a>
+                <a class="btn btn-success my-2 my-sm-0" href="menu.html">Menú</a>
+                <a class="btn btn-success my-2 my-sm-0" type="button" href="index.html">
+                    Salir
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+              </form>
+            </div>
+          </nav>
+    </section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h1 class="display-4"><b>Registrar hoja de ruta</b></h1>
+                <form class="jumbotron">                    
+                    <div class="row ">                       
+                        <div class="col">
+                            <label>Zona</label><br>
+                            <select class="form-control" id="cboZona" onchange="CargarRemitos()">
+                                <option disabled selected>Seleccione zona...</option>
+                                <option value="1">Sur</option>
+                                <option value="2">Norte</option>
+                                <option value="3">Centro</option>
+                                <option value="4">Este</option>
+                                <option value="5">Oeste</option>
+                            </select><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <table class="table table-bordered" id="TablaRemitos">
+                                <thead>
+                                    <th data-field="idRemito">Código remito</th>
+                                </thead>
+                                <tbody id="cuerpoTabla"></tbody>
+                            </table><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div  class="col">
+                            <label>Fecha</label><br>
+                            <input type="date" class="form-control" id="txtFecha" disabled><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div  class="col">
+                            <label>Transportista</label><br>
+                            <select class="form-control" id="cboTransportista">
+                                <option disabled selected>Seleccione transportista...</option>
+                            </select><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div  class="col">
+                            <label>Vehiculo</label><br>
+                            <select class="form-control" id="cboVehiculo" disabled>
+                                <option disabled selected value="0"></option>
+                            </select><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div  class="col">
+                            <button type="button" class="btn btn-success form-control" id="btn1">Registrar</button>
+                        </div>
+                    </div>
+          
+            </form>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        
+    </div>
+   
+
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+</body>
+
+<script>
+    function Validar() {
+        if ($("#txtFecha").val() === "") {
+            swal("Ingrese fecha", "Este campo es Obligatorio", "error")
+            return false;
+        }
+        if ($("#cboTransportista").val() === null) {
+            swal("Seleccione transportista", "Este campo es Obligatorio", "error")
+            return false;
+        }
+        if ($("#cboVehiculo").val() === null) {
+            swal("Seleccione vehiculo", "Este campo es Obligatorio", "error")
+            return false;
+        }
+        return true;
+    }
+
+    function cargarCombo() {
+        document.getElementById('txtFecha').valueAsDate = new Date();
+
+        $('#cboTransportista').change(function (){
+            let idT = $('#cboTransportista').val();
+            
+            if (idT == 0)
+            $('#cboVehiculo').val(0);
+            else if (idT == 1)
+            $('#cboVehiculo').val(1);
+            else if (idT == 2)
+            $('#cboVehiculo').val(2);
+            else if (idT == 3)
+            $('#cboVehiculo').val(3);
+            else if (idT == 4)
+            $('#cboVehiculo').val(4);
+            else if (idT == 5)
+            $('#cboVehiculo').val(5);
+        })
+
+        $.ajax({
+            url: "https://vast-brook-85314.herokuapp.com/Transportista/ObtenerTransportistas",
+            type: "GET",
+            success: function (result) {
+                select = document.getElementById("cboTransportista");
+                for (let i = 0; i < result.return.length; i++) {
+                    var option = document.createElement('option');
+                    option.text = result.return[i].nombre;
+                    option.value = result.return[i].idTransportista;
+                    select.add(option);
+                }
+                console.log(select.value);
+            },
+            error: function (error) {
+                swal(result.error);
+            }
+        });
+
+        $.ajax({
+            url: "https://vast-brook-85314.herokuapp.com/Vehiculo/ObtenerVehiculos",
+            type: "GET",
+            success: function (result) {
+                select = document.getElementById("cboVehiculo");
+                for (let i = 0; i < result.return.length; i++) {
+                    var option = document.createElement('option');
+                    option.text = result.return[i].patente;
+                    option.value = result.return[i].idVehiculo;
+                    select.add(option);
+                }
+                console.log(select.value);
+            },
+            error: function (error) {
+                swal(result.error);
+            }
+        });
+    }
+
+    $(document).ready(function autocomplete() {
+    $("#cboVehiculo").autocomplete({
+      source: function (request, responce) {
+        $.ajax({
+            url: "https://vast-brook-85314.herokuapp.com/Vehiculo/ObtenerVehiculos",
+            type: "GET",
+            success: function (result) {
+                select = document.getElementById("cboVehiculo");
+                for (let i = 0; i < result.return.length; i++) {
+                    var option = document.createElement('option');
+                    option.text = result.return[i].patente;
+                    option.value = result.return[i].idVehiculo;
+                    select.add(option);
+                }
+                console.log(select.value);
+            },
+            error: function (error) {
+                swal(result.error);
+            }
+        });
+      },
+      
+    });
+    $("#cboTransportista").autocomplete({
+      source: function (request, responce) {
+        $.ajax({
+            url: "https://vast-brook-85314.herokuapp.com/Transportista/ObtenerTransportistas",
+            type: "GET",
+            success: function (result) {
+                select = document.getElementById("cboTransportista");
+                for (let i = 0; i < result.return.length; i++) {
+                    var option = document.createElement('option');
+                    option.text = result.return[i].nombre;
+                    option.value = result.return[i].idTransportista;
+                    select.add(option);
+                }
+                console.log(select.value);
+            },
+            error: function (error) {
+                swal(result.error);
+            }
+        });
+      },
+      
+    });
+  });
+
+    function CargarRemitos() {
+
+        let zona = document.getElementById("cboZona");
+        let zonaId = zona.options[zona.selectedIndex].value;
+
+
+        $.ajax({
+            type: "Get",
+            url: "https://vast-brook-85314.herokuapp.com/Remito/ObtenerRemitosPorZona",
+            data: { idZona: $("#cboZona").val() },
+            success: function (result) {
+                if (result.ok) {
+                    crearTabla(result.return.remitos);
+                } else {
+                    swal(result.error);
+                }
+            }
+
+        });
+    }
+
+    function crearTabla(datos) {
+        if(datos.length<=0){
+            let html = "<tr>";
+                html += "<td>" + "La zona seleccionada no tiene remitos pendientes" +
+                     "</br>" +"<button onclick='location.reload(true)'>"+
+                         "Seleccionar nueva zona" +
+                         "</button class='btn btn-primary form-control'>"  + 
+                         "</td class='form-control'>";
+            html += "</tr>"
+            $("#cuerpoTabla").append(html);
+            document.getElementById("cboZona").disabled=true;
+        }
+        else{
+            for (let i = 0; i <= 2; i++) {
+            let html = "<tr>";
+            html += "<td>" +  datos[i].idRemito + "</td class='form-control'>";
+            html += "</tr>"
+            $("#cuerpoTabla").append(html);
+            document.getElementById("cboZona").disabled=true;
+        }
+
+        }
+        
+    }
+
+
+
+    $("#btn1").click(function () {
+        if (Validar()) {
+            let fecha = $("#txtFecha").val();
+            let zona = document.getElementById('cboZona');
+            let idZona = zona.selectedIndex;
+            let transportista = document.getElementById('cboTransportista');
+            let idTransportista = transportista.selectedIndex;
+            let vehiculo = document.getElementById('cboVehiculo');
+            let idvehiculo = vehiculo.selectedIndex;
+
+            CargarFormulario(fecha, idZona, idTransportista, idvehiculo);
+        }
+    })
+
+    function CargarFormulario(fecha, idZona, idTransportista, idvehiculo) {
+        comando = {
+            "idHojaRuta": 0,
+            "idZona": idZona,
+            "fecha": fecha,
+            "idVehiculo": idvehiculo,
+            "idTransportista": idTransportista
+        }
+        
+
+        $.ajax({
+            url: "https://vast-brook-85314.herokuapp.com/HojaDeRuta/RegistrarHojaDeRuta",
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(comando),
+            type: "POST",
+            success: function (result) {
+                if (result.ok){
+                    swal("Carga Exitosa!", "", "success")
+                    $(location).attr('href',"IndexHojaDeRuta.html");
+                }
+                else{
+                    swal(result.error);
+                }
+                    
+                    
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+    crossorigin="anonymous"></script>
+
+</html>
